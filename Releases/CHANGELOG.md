@@ -1,7 +1,8 @@
 # Changes since latest release:
 * Features:
 	* Add the names of the persons on shift in the popup.
-		* An option page allows the user to change how often the extension will check if Analog is open, and if the extension should show who is on shift.
+		* Allow multiple people to be on shift.
+	* An option page allows the user to change how often the extension will check if Analog is open, and if the extension should show who is on shift.
 
 # 0.0.1: Initial release #
 * Features:

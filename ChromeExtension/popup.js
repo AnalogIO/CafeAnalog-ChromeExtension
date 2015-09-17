@@ -25,7 +25,7 @@ function getIsAnalogOpen(callback, errorCallback) {
 }
 
 function getNames(callback, errorCallback) {
-  var nameRegex = /On shift right now: ([a-zæøå\s,]+)/i
+  var nameRegex = /On shift right now: ([a-zæøå\s,(&amp;)]+)/i
   
   var x = new XMLHttpRequest();
   x.open('GET', "http://cafeanalog.dk/");
@@ -37,7 +37,7 @@ function getNames(callback, errorCallback) {
       return;
     }
     var names = nameRegex.exec(x.responseText);
-    callback(names[1]);
+    callback(names[1].replace("&amp;","&"));
   }
   x.onerror = function() {
     errorCallback('Network error.');
