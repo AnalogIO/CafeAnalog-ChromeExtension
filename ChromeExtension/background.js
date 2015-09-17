@@ -45,8 +45,28 @@ function updateAll()
   updateIcon();
 }
 
-setInterval(function () {
+var updateTime;
+function getUpdateTime()
+{
+  chrome.storage.sync.get({
+    timesetting: 1
+  }, function(items) {
+    updateTime = items.timesetting * 60 * 1000;
+    console.log("storage: " + items.timesetting + "\n" + "updateTime: " + updateTime);
+  })
+}
+
+
+
+var updateAndRetrieveUpdateTime = function(){
   updateAll();
-}, 30*1000*60) // every 30 minutes
+  
+  clearInterval(interval);
+  getUpdateTime();
+  interval = setInterval(updateAndRetrieveUpdateTime, updateTime);
+}
+var interval = setInterval(updateAndRetrieveUpdateTime, updateTime);
 
 updateAll();
+
+

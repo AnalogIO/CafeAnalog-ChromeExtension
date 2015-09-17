@@ -1,3 +1,8 @@
+.title
+{
+	padding: 20px;
+}
+
 .title h1
 {
 	font-size: 36px;
@@ -18,9 +23,9 @@
 
 .statusAndSave
 {
-	
 	margin: 20px;
 	padding: 20px;
+	padding-top: 100px;
 	align-content: center;
 	align-self: center;
 }
@@ -32,6 +37,7 @@
 
 .footer a
 {
+	padding: 20px;
 	color: #53676E;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	text-decoration: none;
