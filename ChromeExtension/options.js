@@ -1,3 +1,4 @@
+// Takes a number and returns it if it is above 1 otherwise return 1
 function cleanUpdateTime(updateTime) {
   return (updateTime>1) ? updateTime : 1;
 }
@@ -34,5 +35,4 @@ function restore_options() {
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click',
-    save_options);
+document.getElementById('save').addEventListener('click', save_options);
