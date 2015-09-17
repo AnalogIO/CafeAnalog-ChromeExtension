@@ -22,7 +22,7 @@
           "128": "Assets/icon128.png" },
 
   "permissions": [
-    "http://cafeanalog.dk/REST",
-    "storage"
+    "storage",
+    "http://cafeanalog.dk/"
   ]
 }
