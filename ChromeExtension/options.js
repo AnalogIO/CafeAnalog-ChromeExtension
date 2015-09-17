@@ -1,8 +1,10 @@
 // Saves options to chrome.storage
 function save_options() {
   var updateTime = document.getElementById('UpdateTime').value;
+  var showOnShift = document.getElementById('ShowOnShift').checked;
   chrome.storage.sync.set({
     timesetting: updateTime,
+    showshiftsetting: showOnShift,
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -19,8 +21,10 @@ function restore_options() {
   // Use default value;
   chrome.storage.sync.get({
     timesetting: 30,
+    showshiftsetting: true,
   }, function(items) {
     document.getElementById('UpdateTime').value = items.timesetting;
+    document.getElementById('ShowOnShift').checked = items.showshiftsetting;
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);

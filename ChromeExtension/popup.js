@@ -75,6 +75,14 @@ function setIcon(openString) {
   chrome.browserAction.setIcon({path:"Assets/icon"+openString+"38.png"});
 }
 
+function getShowNames(caller) {
+  chrome.storage.sync.get({
+    showshiftsetting: true
+  }, function(items) {
+    return caller(items.showshiftsetting);
+  })
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   renderStatus('Cafe Analog is...');
   getIsAnalogOpen(function (boolValue){
@@ -82,15 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var result = boolToText(boolValue);
     console.log(result);
     renderStatus('Cafe Analog is ' + result);
-    if (boolValue) {
-      getNames(function (names) {
-        console.log(names);
-        renderNames('On shift: ' + names);
-      }, function (error) {
-        renderStatus('Something went wrong: ' + error);
-        renderNames('');
-      });
-    }
+    // names
+    getShowNames(function (value) {
+      if (boolValue && value) {
+        getNames(function (names) {
+          console.log(names);
+          renderNames('On shift: ' + names);
+        }, function (error) {
+          renderStatus('Something went wrong: ' + error);
+          renderNames('');
+        });
+      }
+    });
   }, function (error) {
     renderStatus('Something went wrong: ' + error);
   });
