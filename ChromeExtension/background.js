@@ -49,6 +49,6 @@ function updateAll()
 
 setInterval(function () {
   updateAll();
-}, 1800000) // every 30 minutes
+}, 30*1000*60) // every 30 minutes
 
 updateAll();
