@@ -51,8 +51,8 @@ function getUpdateTime()
   chrome.storage.sync.get({
     timesetting: 1
   }, function(items) {
-    updateTime = items.timesetting * 60 * 1000;
-    console.log("storage: " + items.timesetting + "\n" + "updateTime: " + updateTime);
+    updateTime = items.timesetting*60*1000;
+    console.log("storage: " + items.timesetting + " minutes.\n" + "updateTime: " + updateTime + " microseconds");
   })
 }
 
@@ -61,12 +61,9 @@ function getUpdateTime()
 var updateAndRetrieveUpdateTime = function(){
   updateAll();
   
-  clearInterval(interval);
   getUpdateTime();
-  interval = setInterval(updateAndRetrieveUpdateTime, updateTime);
+  setTimeout(updateAndRetrieveUpdateTime, updateTime);
 }
-var interval = setInterval(updateAndRetrieveUpdateTime, updateTime);
+setTimeout(updateAndRetrieveUpdateTime, updateTime);
 
-updateAll();
-
-
+updateAndRetrieveUpdateTime();
