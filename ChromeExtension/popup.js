@@ -84,17 +84,14 @@ function getShowNames(caller) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  renderStatus('Cafe Analog is...');
+  renderStatus('Cafe Analog is ...');
   getIsAnalogOpen(function (boolValue){
-    console.log(boolValue);
     var result = boolToText(boolValue);
-    console.log(result);
     renderStatus('Cafe Analog is ' + result);
     // names
     getShowNames(function (value) {
       if (boolValue && value) {
         getNames(function (names) {
-          console.log(names);
           renderNames('On shift: ' + names);
         }, function (error) {
           renderStatus('Something went wrong: ' + error);

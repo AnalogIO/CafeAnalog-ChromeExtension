@@ -45,25 +45,27 @@ function updateAll()
   updateIcon();
 }
 
-var updateTime;
-function getUpdateTime()
+function getUpdateTime(caller)
 {
   chrome.storage.sync.get({
-    timesetting: 1
+    timesetting: 5
   }, function(items) {
-    updateTime = items.timesetting*60*1000;
+    var updateTime = items.timesetting*60*1000;
     console.log("storage: " + items.timesetting + " minutes.\n" + "updateTime: " + updateTime + " microseconds");
+    caller(updateTime);
   })
 }
 
 
 
-var updateAndRetrieveUpdateTime = function(){
+var updateAndRetrieveUpdateTime = function()
+{
   updateAll();
   
-  getUpdateTime();
-  setTimeout(updateAndRetrieveUpdateTime, updateTime);
+  getUpdateTime(function(updateTime) 
+  {
+    setTimeout(updateAndRetrieveUpdateTime, updateTime);
+  });
 }
-setTimeout(updateAndRetrieveUpdateTime, updateTime);
 
 updateAndRetrieveUpdateTime();
