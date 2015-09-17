@@ -8,16 +8,13 @@ function getIsAnalogOpen(callback, errorCallback) {
   x.open('GET', "http://cafeanalog.dk/REST/");
   // The Google image search API responds with JSON, so let Chrome parse it.
   x.responseType = 'json';
-  console.log("test 1");
   x.onload = function() {
     var response = x.response;
     if (!response ) {
         errorCallback('No response from CafeAnalog.com!');
         return;
     }
-    console.log(response.open);
     var isOpen = response.open;
-    console.log(isOpen);
     
     callback(isOpen);
   };
