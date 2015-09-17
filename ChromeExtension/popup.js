@@ -27,6 +27,31 @@ function getIsAnalogOpen(callback, errorCallback) {
   x.send();
 }
 
+function getNames(callback, errorCallback) {
+  var nameRegex = /On shift right now: ([a-zæøå\s,]+)/i
+  
+  var x = new XMLHttpRequest();
+  x.open('GET', "http://cafeanalog.dk/");
+  x.responseType = "html";
+  x.onload = function() {
+    var response = x.response;
+    if (!response) {
+      errorCallback('No response from CafeAnalog.dk');
+      return;
+    }
+    var names = nameRegex.exec(x.responseText);
+    callback(names[1]);
+  }
+  x.onerror = function() {
+    errorCallback('Network error.');
+  };
+  x.send();
+}
+
+function renderNames(namesTest) {
+  document.getElementById('onshift').textContent = namesTest;
+}
+
 function renderStatus(statusText) {
   document.getElementById('status').textContent = statusText;
 }
@@ -57,6 +82,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var result = boolToText(boolValue);
     console.log(result);
     renderStatus('Cafe Analog is ' + result);
+    if (boolValue) {
+      getNames(function (names) {
+        console.log(names);
+        renderNames('On shift: ' + names);
+      }, function (error) {
+        renderStatus('Something went wrong: ' + error);
+        renderNames('');
+      });
+    }
   }, function (error) {
     renderStatus('Something went wrong: ' + error);
   });
