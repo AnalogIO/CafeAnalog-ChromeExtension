@@ -1,6 +1,11 @@
+function cleanUpdateTime(updateTime) {
+  return (updateTime>1) ? updateTime : 1;
+}
+
+
 // Saves options to chrome.storage
 function save_options() {
-  var updateTime = document.getElementById('UpdateTime').value;
+  var updateTime = cleanUpdateTime(document.getElementById('UpdateTime').value);
   var showOnShift = document.getElementById('ShowOnShift').checked;
   chrome.storage.sync.set({
     timesetting: updateTime,
@@ -8,6 +13,7 @@ function save_options() {
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
+    document.getElementById('UpdateTime').value = updateTime; // in case an invalid number was choosen
     status.textContent = 'Options saved.';
     setTimeout(function() {
       status.textContent = '';
