@@ -1,7 +1,5 @@
 var openString = "";
 
-
-
 function getIsAnalogOpen(callback, errorCallback) {
   var x = new XMLHttpRequest();
   x.open('GET', "http://cafeanalog.dk/REST/");
@@ -10,7 +8,7 @@ function getIsAnalogOpen(callback, errorCallback) {
   x.onload = function() {
     var response = x.response;
     if (!response ) {
-        errorCallback('No response from CafeAnalog.com!');
+        errorCallback('No response from CafeAnalog.dk!');
         return;
     }
     var isOpen = response.open;
