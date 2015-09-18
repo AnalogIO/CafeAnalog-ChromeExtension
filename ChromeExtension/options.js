@@ -8,9 +8,11 @@ function cleanUpdateTime(updateTime) {
 function save_options() {
   var updateTime = cleanUpdateTime(document.getElementById('UpdateTime').value);
   var showOnShift = document.getElementById('ShowOnShift').checked;
+  var showOpening = document.getElementById('ShowOpening').checked;
   chrome.storage.sync.set({
     timesetting: updateTime,
     showshiftsetting: showOnShift,
+    showopeningsetting: showOpening,
   }, function() {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
@@ -29,9 +31,11 @@ function restore_options() {
   chrome.storage.sync.get({
     timesetting: 30,
     showshiftsetting: true,
+    showopeningsetting: true,
   }, function(items) {
     document.getElementById('UpdateTime').value = items.timesetting;
     document.getElementById('ShowOnShift').checked = items.showshiftsetting;
+    document.getElementById('ShowOpening').checked = items.showopeningsetting;
   });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
