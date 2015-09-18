@@ -11,42 +11,80 @@ function getIsAnalogOpen(callback, errorCallback) {
   x.onload = function() {
     var response = x.response;
     if (!response ) {
-        errorCallback('No response from CafeAnalog.com!');
+        errorCallback('No response from CafeAnalog.dk!');
         return;
     }
     var isOpen = response.open;
     
     callback(isOpen);
   };
-  x.onerror = function() {
-    errorCallback('Network error.');
-  };
+  x.onerror = errorCallback('Network error.');
   x.send();
 }
 
-function getNames(callback, errorCallback) {
-  var nameRegex = /On shift right now: ([a-zæøå\s,(&amp;)]+)/i
-  
+var cafeanalog;
+var downloading;
+
+function downloadHomePage(callback, errorCallback) {
+  if (downloading) {
+    // If currently downloading, don't redownload, just wait to see if the download finishes soon.
+    setTimeout(function() { downloadHomePage(callback, errorCallback);}, 50);
+    return;
+  }
+  if (cafeanalog) { // If the content is already available
+    callback(cafeanalog); // just callback with content
+    return;
+  }
+  downloading = true; // Download now in progress
   var x = new XMLHttpRequest();
-  x.open('GET', "http://cafeanalog.dk/");
-  x.responseType = "html";
+  x.open('GET', 'http://cafeanalog.dk/');
+  x.responseType = 'document';
   x.onload = function() {
-    var response = x.response;
-    if (!response) {
-      errorCallback('No response from CafeAnalog.dk');
+    cafeanalog = x.response;
+    downloading = false; // Download now done, and content is available if found
+    if (!cafeanalog) {
+      errorCallback();
       return;
     }
-    var names = nameRegex.exec(x.responseText);
-    callback(names[1].replace("&amp;","&"));
+    callback(cafeanalog);
+    return;
   }
-  x.onerror = function() {
-    errorCallback('Network error.');
-  };
+  x.onerror = errorCallback;
   x.send();
 }
 
-function renderNames(namesTest) {
-  document.getElementById('onshift').textContent = namesTest;
+function getOpening(errorCallback) {
+  getShowOpening(function (showOpening) { // Check the settings to see if the opening should be downloaded or not.
+    if (!showOpening) return;
+    downloadHomePage(function(response) {
+      var opening = response.getElementById("openingHours").getElementsByTagName("li")[0].textContent;
+      if (!opening) { 
+        renderOpening('No openings found');
+        return;
+      }
+      renderOpening(opening);
+    }, function() { renderOpening('No openings found'); });
+  });
+}
+
+function getNames() {
+  getShowNames(function (showNames) {
+    if (!showNames) return;
+    var nameRegex = /On shift right now: ([a-zæøå\s,&;]+)\n/i
+    downloadHomePage(function(response) {
+      var names = nameRegex.exec(response.getElementById("openingHours").textContent);
+      renderNames(names[1].replace("&amp;","&"));
+    }, function() {renderStatus('Network error.');renderNames('');}
+    );
+  });
+}
+
+function renderOpening(openingText) {
+  document.getElementById('opening').textContent = openingText;  
+}
+
+function renderNames(namesText) {
+  document.getElementById('onshift').textContent = namesText;
 }
 
 function renderStatus(statusText) {
@@ -54,18 +92,16 @@ function renderStatus(statusText) {
 }
 
 function boolToText(isOpenBool) {
-  var toReturn = "";
   if (isOpenBool)
   {
-    toReturn = "ÅPEN";
     setIcon("Open");
+    return "ÅPEN";
   } 
   else
   {
-    toReturn = "CLØSED";
     setIcon("");
+    return "CLØSED";
   }
-  return toReturn;
 }
 
 function setIcon(openString) {
@@ -80,23 +116,23 @@ function getShowNames(caller) {
   })
 }
 
+function getShowOpening(caller) {
+  chrome.storage.sync.get({
+    showopeningsetting: true
+  }, function(items) {
+    return caller(items.showopeningsetting);
+  })
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   renderStatus('Cafe Analog is ...');
   getIsAnalogOpen(function (boolValue){
-    var result = boolToText(boolValue);
-    renderStatus('Cafe Analog is ' + result);
+    renderStatus('Cafe Analog is ' + boolToText(boolValue));
     // names
-    getShowNames(function (value) {
-      if (boolValue && value) {
-        getNames(function (names) {
-          renderNames('On shift: ' + names);
-        }, function (error) {
-          renderStatus('Something went wrong: ' + error);
-          renderNames('');
-        });
-      }
-    });
-  }, function (error) {
-    renderStatus('Something went wrong: ' + error);
-  });
+    if (boolValue) {
+      getNames();
+    }
+  }, renderStatus);
+  // opening
+  getOpening(renderStatus);
 });

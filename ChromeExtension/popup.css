@@ -12,6 +12,11 @@ body {
 	color: #53676E
 }
 #onshift {
-	font-size: 8pt;
+	font-size: 10pt;
+	text-align: center;
+}
+
+#opening {
+	font-size: 9pt;
 	text-align: center;
 }
