@@ -2,24 +2,20 @@ body {
 	font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
 	font-size: 100%;
 	background-color: #F2F6F7;
-	min-width: 200px
+	text-align: center;
+	text-overflow: ellipsis;
 }
 #status {
-	/* avoid an excessively wide status text */
 	white-space: pre;
-	text-overflow: ellipsis;
-	overflow: visible;
 	font-size: 14pt;
-	max-width: 200px;
 	color: #53676E;
-	text-align: center;
 }
 #onshift {
+	white-space: pre;
 	font-size: 10pt;
-	text-align: center;
 }
 
 #opening {
+	white-space: pre;
 	font-size: 9pt;
-	text-align: center;
 }

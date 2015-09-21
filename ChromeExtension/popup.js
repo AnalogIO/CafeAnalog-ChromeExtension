@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       else
       {
-        renderOpening("Open again " + openingText);
+        renderOpening("We open again " + openingText);
       }
     }, renderOpening);
   }, renderStatus);
