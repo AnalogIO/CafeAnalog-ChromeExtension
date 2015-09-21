@@ -52,7 +52,7 @@ function downloadHomePage(callback, errorCallback) {
       callback(cafeanalog);
     }
   }
-  x.onerror = errorCallback;
+  x.onerror = function(){}; // errorCallback
   x.send();
 }
 
