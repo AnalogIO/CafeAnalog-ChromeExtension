@@ -12,11 +12,12 @@ function getIsAnalogOpen(callback, errorCallback) {
     var response = x.response;
     if (!response ) {
         errorCallback('No response from CafeAnalog.dk!');
-        return;
     }
-    var isOpen = response.open;
-    
-    callback(isOpen);
+    else
+    {
+      var isOpen = response.open;
+      callback(isOpen);
+    }
   };
   x.onerror = errorCallback('Network error.');
   x.send();
@@ -46,10 +47,11 @@ function downloadHomePage(callback, errorCallback) {
     downloading = false; // Download now done, and content is available if found
     if (!cafeanalog) {
       errorCallback();
-      return;
     }
-    callback(cafeanalog);
-    return;
+    else
+    {
+      callback(cafeanalog);
+    }
   }
   x.onerror = errorCallback;
   x.send();
@@ -63,9 +65,11 @@ function getOpening(callback, errorCallback) {
       var opening = response.getElementById("openingHours").getElementsByTagName("li")[0].textContent;
       if (!opening) { 
         errorCallback('No openings found');
-        return;
       }
-      callback(opening);
+      else
+      {
+        callback(opening);
+      }
     }, function() { 
       errorCallback('No openings found');
       });
@@ -81,9 +85,10 @@ function getNames(callback, errorCallback) {
       var names = nameRegex.exec(response.getElementById("openingHours").textContent);
       if (!names) { 
         errorCallback('No names found');
-        return;
+      } 
+      else {
+        callback(names[1].replace("&amp;","&"));
       }
-      callback(names[1].replace("&amp;","&"));
     }, function() { 
       errorCallback('No names found');
       }
