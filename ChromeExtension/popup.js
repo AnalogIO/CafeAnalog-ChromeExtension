@@ -87,7 +87,7 @@ function getNames(callback, errorCallback) {
         errorCallback('No names found');
       } 
       else {
-        callback(names[1].replace("&amp;","&"));
+        callback(names[1]);
       }
     }, function() { 
       errorCallback('No names found');
@@ -101,7 +101,7 @@ function renderOpening(openingText) {
 }
 
 function renderNames(namesText) {
-  document.getElementById('onshift').textContent = namesText;
+  document.getElementById('onshift').innerHTML = namesText;
 }
 
 function renderStatus(statusText) {
