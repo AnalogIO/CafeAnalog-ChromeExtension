@@ -82,7 +82,6 @@ function getNames(callback, errorCallback) {
       callback(names[1].replace("&amp;","&"));
       if (!names) { 
         errorCallback('No names found');
-        return;
       }
     }, function() { 
       errorCallback('No names found');
@@ -124,7 +123,7 @@ function getShowNames(callback) {
   chrome.storage.sync.get({
     showshiftsetting: true
   }, function(items) {
-    return callback(items.showshiftsetting);
+    callback(items.showshiftsetting);
   })
 }
 
@@ -132,7 +131,7 @@ function getShowOpening(callback) {
   chrome.storage.sync.get({
     showopeningsetting: true
   }, function(items) {
-    return callback(items.showopeningsetting);
+    callback(items.showopeningsetting);
   })
 }
 
@@ -144,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // names
     if (boolValue) {
       getNames( function (names) {
-        renderNames(names); 
+        renderNames(names); // put special handeling if necesarry
       }, renderNames);
     }
     // opening
