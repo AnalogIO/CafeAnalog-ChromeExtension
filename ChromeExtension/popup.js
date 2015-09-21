@@ -144,12 +144,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // names
     if (boolValue) {
       getNames( function (names) {
-        renderNames(names);
+        renderNames(names); 
       }, renderNames);
     }
+    // opening
+    getOpening( function(openingText) {
+      if (boolValue)
+      {
+        renderOpening(openingText);
+      }
+      else
+      {
+        renderOpening("Open again " + openingText);
+      }
+    }, renderOpening);
   }, renderStatus);
-  // opening
-  getOpening( function(openingText) {
-    renderOpening(openingText);
-  }, renderOpening);
 });
