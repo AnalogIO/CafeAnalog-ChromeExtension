@@ -1,12 +1,11 @@
-// Copyright (c) 2014 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
+// Copyright (c) 2015 Analog.IO group. All rights reserved.
+// Use of this source code is governed by a Apache-style license that can be
 // found in the LICENSE file.
 
 
 function getIsAnalogOpen(callback, errorCallback) {
   var x = new XMLHttpRequest();
   x.open('GET', "http://cafeanalog.dk/REST/");
-  // The Google image search API responds with JSON, so let Chrome parse it.
   x.responseType = 'json';
   x.onload = function() {
     var response = x.response;
