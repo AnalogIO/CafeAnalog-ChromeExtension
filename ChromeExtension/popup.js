@@ -28,7 +28,9 @@ var downloading;
 function downloadHomePage(callback, errorCallback) {
   if (downloading) {
     // If currently downloading, don't redownload, just wait to see if the download finishes soon.
-    setTimeout(function() { downloadHomePage(callback, errorCallback);}, 50);
+    setTimeout( function() { 
+      downloadHomePage(callback, errorCallback);
+      }, 50);
     return;
   }
   if (cafeanalog) { // If the content is already available
@@ -53,28 +55,38 @@ function downloadHomePage(callback, errorCallback) {
   x.send();
 }
 
-function getOpening(errorCallback) {
-  getShowOpening(function (showOpening) { // Check the settings to see if the opening should be downloaded or not.
+function getOpening(callback, errorCallback) {
+  getShowOpening( function (showOpening) { // Check the settings to see if the opening should be downloaded or not.
     if (!showOpening) return;
-    downloadHomePage(function(response) {
+    
+    downloadHomePage( function(response) {
       var opening = response.getElementById("openingHours").getElementsByTagName("li")[0].textContent;
       if (!opening) { 
-        renderOpening('No openings found');
+        errorCallback('No openings found');
         return;
       }
-      renderOpening(opening);
-    }, function() { renderOpening('No openings found'); });
+      callback(opening);
+    }, function() { 
+      errorCallback('No openings found');
+      });
   });
 }
 
-function getNames() {
-  getShowNames(function (showNames) {
+function getNames(callback, errorCallback) {
+  getShowNames( function (showNames) {
     if (!showNames) return;
     var nameRegex = /On shift right now: ([a-zæøå\s,&;]+)\n/i
-    downloadHomePage(function(response) {
+    
+    downloadHomePage( function(response) {
       var names = nameRegex.exec(response.getElementById("openingHours").textContent);
-      renderNames(names[1].replace("&amp;","&"));
-    }, function() {renderStatus('Network error.');renderNames('');}
+      callback(names[1].replace("&amp;","&"));
+      if (!names) { 
+        errorCallback('No names found');
+        return;
+      }
+    }, function() { 
+      errorCallback('No names found');
+      }
     );
   });
 }
@@ -108,31 +120,36 @@ function setIcon(openString) {
   chrome.browserAction.setIcon({path:"Assets/icon"+openString+"38.png"});
 }
 
-function getShowNames(caller) {
+function getShowNames(callback) {
   chrome.storage.sync.get({
     showshiftsetting: true
   }, function(items) {
-    return caller(items.showshiftsetting);
+    return callback(items.showshiftsetting);
   })
 }
 
-function getShowOpening(caller) {
+function getShowOpening(callback) {
   chrome.storage.sync.get({
     showopeningsetting: true
   }, function(items) {
-    return caller(items.showopeningsetting);
+    return callback(items.showopeningsetting);
   })
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   renderStatus('Cafe Analog is ...');
-  getIsAnalogOpen(function (boolValue){
+  
+  getIsAnalogOpen( function (boolValue) {
     renderStatus('Cafe Analog is ' + boolToText(boolValue));
     // names
     if (boolValue) {
-      getNames();
+      getNames( function (names) {
+        renderNames(names);
+      }, renderNames);
     }
   }, renderStatus);
   // opening
-  getOpening(renderStatus);
+  getOpening( function(openingText) {
+    renderOpening(openingText);
+  }, renderOpening);
 });
