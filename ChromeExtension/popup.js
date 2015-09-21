@@ -18,7 +18,7 @@ function getIsAnalogOpen(callback, errorCallback) {
       callback(isOpen);
     }
   };
-  x.onerror = errorCallback('Network error.');
+  x.onerror = function(){}; // errorCallback('Network error.');
   x.send();
 }
 
