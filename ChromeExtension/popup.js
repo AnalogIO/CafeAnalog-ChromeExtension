@@ -79,10 +79,11 @@ function getNames(callback, errorCallback) {
     
     downloadHomePage( function(response) {
       var names = nameRegex.exec(response.getElementById("openingHours").textContent);
-      callback(names[1].replace("&amp;","&"));
       if (!names) { 
         errorCallback('No names found');
+        return;
       }
+      callback(names[1].replace("&amp;","&"));
     }, function() { 
       errorCallback('No names found');
       }
