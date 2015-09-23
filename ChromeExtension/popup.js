@@ -117,11 +117,18 @@ function getNames(callback, errorCallback) {
         errorCallback('No names found');
       } 
       else {
-        var commaSeparated = names[1].replace(/ &/g,','); // All comma separated.
-        var lastComma = commaSeparated.lastIndexOf(","); // Find the last comma
-        var result = commaSeparated.substring(0, lastComma) + " and" + commaSeparated.substring(lastComma + 1); // Remove that comma and insert ' and' instead.
-        
-        callback(result);
+        if(names[1].indexOf("&") == -1) // only 1 name
+        {
+          callback(names[1])
+        }
+        else
+        {
+          var commaSeparated = names[1].replace(/ &/g,','); // All comma separated.
+          var lastComma = commaSeparated.lastIndexOf(","); // Find the last comma
+          var result = commaSeparated.substring(0, lastComma) + " and" + commaSeparated.substring(lastComma + 1); // Remove that comma and insert ' and' instead.
+          
+          callback(result);
+        }
       }
     }, function() { 
       errorCallback('No names found');
