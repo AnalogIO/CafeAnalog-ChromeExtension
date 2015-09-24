@@ -3,7 +3,7 @@
 
   "name": "Cafe Analog",
   "description": "This extension shows if Cafe Analog at The IT University of Copenhagen is open or closed",
-  "version": "0.1",
+  "version": "0.2",
   "options_page": "options.html",
 
   "browser_action": {
