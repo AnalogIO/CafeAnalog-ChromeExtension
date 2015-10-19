@@ -98,7 +98,7 @@ function getOpening(callback, errorCallback) {
       {
         if (isToday(opening)) {
           var nextOpening = response.getElementById("openingHours").getElementsByTagName("li")[1].textContent;
-          var openingString = 'Today: ' + opening.substring(9).trim();
+          var openingString = 'today: ' + opening.substring(9).trim();
           if (nextOpening && isToday(nextOpening)) {
             callback(openingString + " and " + nextOpening.substring(9).trim());
           } else {
