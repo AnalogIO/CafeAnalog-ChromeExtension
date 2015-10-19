@@ -203,6 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     getOpening( function(openingText) {
       if (boolValue)
       {
+        openingText = openingText.charAt(0).toUpperCase() + openingText.slice(1);;
         renderOpening(openingText);
       }
       else
