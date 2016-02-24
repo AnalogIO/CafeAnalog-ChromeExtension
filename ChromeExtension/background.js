@@ -2,7 +2,7 @@ var openString = "";
 
 function getIsAnalogOpen(callback, errorCallback) {
   var x = new XMLHttpRequest();
-  x.open('GET', "http://cafeanalog.dk/REST/");
+  x.open('GET', "http://cafeanalog.dk/api/Open");
   x.responseType = 'json';
   x.onload = function() {
     var response = x.response;

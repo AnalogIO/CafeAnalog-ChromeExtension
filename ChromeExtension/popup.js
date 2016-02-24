@@ -34,7 +34,7 @@ function dayToInt(dayString) {
 
 function getIsAnalogOpen(callback, errorCallback) {
   var x = new XMLHttpRequest();
-  x.open('GET', "http://cafeanalog.dk/REST/");
+  x.open('GET', "http://cafeanalog.dk/api/open");
   x.responseType = 'json';
   x.onload = function() {
     var response = x.response;
