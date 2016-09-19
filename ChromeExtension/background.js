@@ -2,7 +2,7 @@ var openString = "";
 
 function getIsAnalogOpen(callback, errorCallback) {
   var x = new XMLHttpRequest();
-  x.open('GET', "http://cafeanalog.dk/api/Open");
+  x.open('GET', "https://analogio.dk/tamigo/api/open");
   x.responseType = 'json';
   x.onload = function() {
     var response = x.response;
@@ -11,7 +11,7 @@ function getIsAnalogOpen(callback, errorCallback) {
         return;
     }
     var isOpen = response.open;
-    
+
     callback(isOpen);
   };
   x.onerror = function() {
@@ -38,7 +38,7 @@ function updateIcon() {
 	chrome.browserAction.setIcon({path:"Assets/icon" + openString + "38.png"});
 }
 
-function updateAll() 
+function updateAll()
 {
   updateOpenString();
   updateIcon();
@@ -60,8 +60,8 @@ function getUpdateTime(caller)
 var updateAndRetrieveUpdateTime = function()
 {
   updateAll();
-  
-  getUpdateTime(function(updateTime) 
+
+  getUpdateTime(function(updateTime)
   {
     setTimeout(updateAndRetrieveUpdateTime, updateTime);
   });

@@ -34,7 +34,7 @@ function dayToInt(dayString) {
 
 function getIsAnalogOpen(callback, errorCallback) {
   var x = new XMLHttpRequest();
-  x.open('GET', "http://cafeanalog.dk/api/open");
+  x.open('GET', "https://analogio.dk/tamigo/api/open");
   x.responseType = 'json';
   x.onload = function() {
     var response = x.response;
@@ -57,7 +57,7 @@ var downloading;
 function downloadHomePage(callback, errorCallback) {
   if (downloading) {
     // If currently downloading, don't redownload, just wait to see if the download finishes soon.
-    setTimeout( function() { 
+    setTimeout( function() {
       downloadHomePage(callback, errorCallback);
       }, 50);
     return;
@@ -88,10 +88,10 @@ function downloadHomePage(callback, errorCallback) {
 function getOpening(callback, errorCallback) {
   getShowOpening( function (showOpening) { // Check the settings to see if the opening should be downloaded or not.
     if (!showOpening) return;
-    
+
     downloadHomePage( function(response) {
       var opening = response.getElementById("openingHours").getElementsByTagName("li")[0].textContent;
-      if (!opening) { 
+      if (!opening) {
         errorCallback('No openings found');
       }
       else
@@ -108,7 +108,7 @@ function getOpening(callback, errorCallback) {
           callback(opening);
         }
       }
-    }, function() { 
+    }, function() {
       errorCallback('No openings found');
       });
   });
@@ -119,9 +119,9 @@ function getNames(callback, errorCallback) {
     if (!showNames) return;
     downloadHomePage( function(response) {
       var names = nameRegex.exec(response.getElementById("openingHours").textContent);
-      if (!names) { 
+      if (!names) {
         errorCallback('No names found');
-      } 
+      }
       else {
         if(names[1].indexOf("&") == -1) // only 1 name
         {
@@ -132,11 +132,11 @@ function getNames(callback, errorCallback) {
           var commaSeparated = names[1].replace(/ &/g,','); // All comma separated.
           var lastComma = commaSeparated.lastIndexOf(","); // Find the last comma
           var result = commaSeparated.substring(0, lastComma) + " and" + commaSeparated.substring(lastComma + 1); // Remove that comma and insert ' and' instead.
-          
+
           callback(result);
         }
       }
-    }, function() { 
+    }, function() {
       errorCallback('No names found');
       }
     );
@@ -144,7 +144,7 @@ function getNames(callback, errorCallback) {
 }
 
 function renderOpening(openingText) {
-  document.getElementById('opening').textContent = openingText;  
+  document.getElementById('opening').textContent = openingText;
 }
 
 function renderNames(namesText) {
@@ -160,7 +160,7 @@ function boolToText(isOpenBool) {
   {
     setIcon("Open");
     return "ÅPEN";
-  } 
+  }
   else
   {
     setIcon("");
@@ -190,7 +190,7 @@ function getShowOpening(callback) {
 
 document.addEventListener('DOMContentLoaded', function() {
   renderStatus('Cafe Analog is ...');
-  
+
   getIsAnalogOpen( function (boolValue) {
     renderStatus('Cafe Analog is ' + boolToText(boolValue));
     // names
