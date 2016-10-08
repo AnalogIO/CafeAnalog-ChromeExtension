@@ -1,5 +1,10 @@
 # Changes since latest release:
-* General bugfixes.
+
+
+# 0.4
+* Changed to match new API and website.
+
+# 0.3: General bugfixes #
 * Features
     * Show when Cafe Analog opens again.
     * Show all opening schedules on the current day.
