@@ -2,7 +2,7 @@ var openString = "";
 
 function getIsAnalogOpen(callback, errorCallback) {
   var x = new XMLHttpRequest();
-  x.open('GET', "https://analogio.dk/tamigo/api/open");
+  x.open('GET', "https://analogio.dk/publicshiftplanning/api/open/analog");
   x.responseType = 'json';
   x.onload = function() {
     var response = x.response;
