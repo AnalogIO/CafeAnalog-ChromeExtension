@@ -1,5 +1,7 @@
 # Changes since latest release:
-
+# 0.5
+* Now uses API rather than name scraping.
+* Complicated a lot of code.
 
 # 0.4
 * Changed to match new API and website.
