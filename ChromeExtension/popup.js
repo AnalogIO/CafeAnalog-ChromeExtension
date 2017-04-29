@@ -116,9 +116,14 @@ function getNames(callback, errorCallback) {
       var checkedIn = opening.checkedInEmployees;
 
       var joined = checkedIn.map(function(emp) { return emp.firstName; }).join(', ');
-      var lastAnd = joined.lastIndexOf(',');
 
-      callback(joined.substring(0, lastAnd) + ' and' + joined.substring(lastAnd + 1));
+      
+      var lastAnd = joined.lastIndexOf(',');
+      if (lastAnd > -1) {
+        callback(joined.substring(0, lastAnd) + ' and' + joined.substring(lastAnd + 1));
+      } else {
+        callback(joined)
+      }
     }, function () { errorCallback('No names found'); });
   });
 }
