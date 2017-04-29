@@ -1,4 +1,7 @@
 # Changes since latest release:
+# 0.5.1
+* Don't write and before a single barista on shift.
+
 # 0.5
 * Now uses API rather than name scraping.
 * Complicated a lot of code.
